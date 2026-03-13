@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tiki Taka | Carta</title>
+  <meta name="description" content="Carta digital premium de Tiki Taka." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:wght@300..800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #060606;
+      --panel: rgba(255,255,255,0.06);
+      --panel-strong: rgba(255,255,255,0.09);
+      --line: rgba(255,255,255,0.10);
+      --text: #f5f5f5;
+      --muted: rgba(255,255,255,0.66);
+      --soft: rgba(255,255,255,0.42);
+      --brand: #e4002b;
+      --brand-soft: rgba(228,0,43,0.16);
+      --shadow: 0 22px 60px rgba(0,0,0,0.38);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --container: 1320px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Funnel Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 15% 18%, rgba(228,0,43,0.18), transparent 28%),
+        radial-gradient(circle at 88% 8%, rgba(228,0,43,0.12), transparent 24%),
+        radial-gradient(circle at 75% 70%, rgba(255,255,255,0.05), transparent 25%),
+        linear-gradient(180deg, #0a0a0a 0%, #050505 100%);
+      color: var(--text);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(180deg, rgba(255,255,255,0.35), transparent 85%);
+      opacity: 0.35;
+    }
+
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0;
+      background: linear-gradient(90deg, #ffffff 0%, var(--brand) 100%);
+      z-index: 120;
+      box-shadow: 0 0 24px rgba(228,0,43,0.8);
+    }
+
+    .container {
+      width: min(calc(100% - 32px), var(--container));
+      margin: 0 auto;
+    }
+
+    .hero {
+      position: relative;
+      padding: 34px 0 26px;
+    }
+
+    .hero-shell {
+      position: relative;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03)),
+        rgba(0,0,0,0.35);
+      border-radius: 40px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero-shell::before {
+      content: "";
+      position: absolute;
+      inset: -20% auto auto 62%;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(228,0,43,0.20), rgba(228,0,43,0.04) 52%, transparent 70%);
+      filter: blur(18px);
+      z-index: -1;
+    }
+
+    .hero-inner {
+      padding: 46px 28px 30px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      color: var(--muted);
+      font-size: 0.88rem;
+      letter-spacing: 0.02em;
+      margin-bottom: 18px;
+      backdrop-filter: blur(20px);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--brand);
+      box-shadow: 0 0 0 6px rgba(228,0,43,0.14);
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 7vw, 6.1rem);
+      line-height: 0.92;
+      margin: 0 0 16px;
+      letter-spacing: -0.05em;
+      max-width: 8ch;
+    }
+
+    .hero-copy p {
+      max-width: 48ch;
+      font-size: 1.03rem;
+      line-height: 1.65;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #fff;
+      font-size: 0.95rem;
+      backdrop-filter: blur(20px);
+    }
+
+    .pill strong {
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .brand-card {
+      position: relative;
+      padding: 30px;
+      min-height: 100%;
+      border-radius: 32px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.04)),
+        rgba(0,0,0,0.34);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      overflow: hidden;
+    }
+
+    .brand-card::before {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(228,0,43,0.42), transparent 70%);
+      top: -60px;
+      right: -60px;
+      filter: blur(4px);
+    }
+
+    .brand-card::after {
+      content: "";
+      position: absolute;
+      inset: auto auto 14px 14px;
+      width: 72px;
+      height: 72px;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(20px);
+    }
+
+    .brand-logo {
+      width: min(100%, 340px);
+      height: auto;
+      filter: drop-shadow(0 16px 24px rgba(0,0,0,0.35));
+      position: relative;
+      z-index: 2;
+    }
+
+    .brand-meta {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 12px;
+      width: 100%;
+    }
+
+    .stat {
+      border-radius: 20px;
+      padding: 16px 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .stat small {
+      display: block;
+      color: var(--soft);
+      font-size: 0.82rem;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .stat strong {
+      font-size: 1rem;
+      line-height: 1.35;
+    }
+
+    .nav-wrap {
+      position: sticky;
+      top: 16px;
+      z-index: 70;
+      margin: 20px 0 30px;
+    }
+
+    .nav-shell {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(8,8,8,0.72);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.24);
+      scrollbar-width: none;
+    }
+
+    .nav-shell::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-link {
+      white-space: nowrap;
+      text-decoration: none;
+      color: var(--muted);
+      padding: 12px 16px;
+      border-radius: 999px;
+      font-size: 0.94rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid transparent;
+      transition: 220ms ease;
+    }
+
+    .nav-link span {
+      display: inline-grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      font-size: 0.72rem;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: #fff;
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    .nav-link.active span {
+      background: var(--brand);
+      box-shadow: 0 0 0 6px rgba(228,0,43,0.12);
+    }
+
+    .section-intro {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 18px;
+      margin: 34px 0 20px;
+    }
+
+    .section-intro h2 {
+      margin: 0;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      letter-spacing: -0.04em;
+    }
+
+    .section-intro p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 54ch;
+      line-height: 1.55;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+      padding-bottom: 50px;
+    }
+
+    .menu-card {
+      position: relative;
+      grid-column: span 4;
+      border-radius: var(--radius-xl);
+      padding: 22px;
+      border: 1px solid rgba(255,255,255,0.09);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)),
+        rgba(0,0,0,0.34);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: transform 240ms ease, border-color 240ms ease, background 240ms ease;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,0.16);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04)),
+        rgba(0,0,0,0.38);
+    }
+
+    .menu-card::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      right: -30px;
+      width: 120px;
+      height: 120px;
+      border-radius: 28px;
+      transform: rotate(18deg);
+      background: linear-gradient(180deg, rgba(228,0,43,0.22), rgba(228,0,43,0.04));
+      opacity: 0.7;
+    }
+
+    .menu-card.wide {
+      grid-column: span 6;
+    }
+
+    .menu-card.compact-card {
+      grid-column: span 3;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-number {
+      font-size: 0.88rem;
+      color: var(--brand);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      margin-bottom: 10px;
+    }
+
+    .card-top h2 {
+      margin: 0;
+      font-size: 1.6rem;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .section-meta {
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.05);
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .menu-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 88px 88px;
+      gap: 10px;
+      padding: 0 0 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 10px;
+      color: var(--soft);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .menu-head.compact {
+      grid-template-columns: minmax(0, 1fr) 88px;
+    }
+
+    .menu-list {
+      position: relative;
+      z-index: 2;
+    }
+
+    .menu-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .menu-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .menu-row.grid-two {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 88px;
+    }
+
+    .menu-row.grid-three {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 88px 88px;
+    }
+
+    .menu-name {
+      line-height: 1.38;
+      font-size: 1rem;
+      padding-right: 10px;
+    }
+
+    .price-pill {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 84px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.05));
+      border: 1px solid rgba(255,255,255,0.08);
+      font-weight: 700;
+      font-size: 0.93rem;
+      letter-spacing: -0.01em;
+      color: #fff;
+    }
+
+    .menu-note {
+      margin-top: 12px;
+      padding: 13px 15px;
+      border-radius: 18px;
+      background: rgba(228,0,43,0.10);
+      border: 1px solid rgba(228,0,43,0.18);
+      color: #fff;
+      font-size: 0.92rem;
+    }
+
+    .footer {
+      padding: 12px 0 40px;
+    }
+
+    .footer-shell {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      padding: 18px 22px;
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+    }
+
+    .footer strong {
+      color: #fff;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 600ms ease, transform 600ms ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1180px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .brand-card {
+        min-height: 280px;
+      }
+
+      .menu-card,
+      .menu-card.wide {
+        grid-column: span 6;
+      }
+
+      .menu-card.compact-card {
+        grid-column: span 4;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .hero {
+        padding-top: 18px;
+      }
+
+      .hero-shell {
+        border-radius: 28px;
+      }
+
+      .hero-inner {
+        padding: 22px 16px 18px;
+        gap: 18px;
+      }
+
+      .brand-card {
+        padding: 18px;
+        border-radius: 24px;
+      }
+
+      .brand-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .section-intro {
+        display: block;
+      }
+
+      .section-intro p {
+        margin-top: 10px;
+      }
+
+      .menu-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .menu-card,
+      .menu-card.wide,
+      .menu-card.compact-card {
+        grid-column: span 1;
+        padding: 18px;
+        border-radius: 24px;
+      }
+
+      .card-top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .section-meta {
+        white-space: normal;
+      }
+
+      .menu-head,
+      .menu-row.grid-three {
+        grid-template-columns: minmax(0, 1fr) 78px 78px;
+        gap: 8px;
+      }
+
+      .menu-head.compact,
+      .menu-row.grid-two {
+        grid-template-columns: minmax(0, 1fr) 78px;
+      }
+
+      .price-pill {
+        min-width: unset;
+        padding: 9px 8px;
+        font-size: 0.86rem;
+      }
+
+      .footer-shell {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+
+  <main class="hero">
+    <div class="container">
+      <div class="hero-shell reveal visible">
+        <div class="hero-inner">
+          <div class="hero-copy">
+            <div class="eyebrow">Carta digital premium</div>
+            <h1>La carta de Tiki Taka</h1>
+            <p>
+              Una landing limpia, moderna y pensada para escanear desde QR, con una experiencia visual elegante,
+              navegación rápida y toda la carta organizada en una sola página.
+            </p>
+            <div class="hero-pills">
+              <div class="pill"><strong>Horario</strong> 6:00 AM — 3:00 AM</div>
+              <div class="pill"><strong>Días</strong> Todos los días</div>
+              <div class="pill"><strong>Estilo</strong> Premium · limpio · moderno</div>
+            </div>
+          </div>
+
+          <aside class="brand-card">
+            <img class="brand-logo" src="data:image/png;base64,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AACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQnsABAAAApCdwAAAAAOkJHAAAAEB6AgcAAACQ3v8Dj5R2+StkPjEAAAAASUVORK5CYII=" alt="Logo Tiki Taka" />
+            <div class="brand-meta">
+              <div class="stat">
+                <small>Carta</small>
+                <strong>Visual premium para QR</strong>
+              </div>
+              <div class="stat">
+                <small>Identidad</small>
+                <strong>Negro · blanco · rojo</strong>
+              </div>
+              <div class="stat">
+                <small>Tipografía</small>
+                <strong>Funnel Sans</strong>
+              </div>
+              <div class="stat">
+                <small>Formato</small>
+                <strong>Una sola página</strong>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <div class="nav-wrap">
+        <nav class="nav-shell" aria-label="Navegación de carta">
+          <a href="#aperitivos" class="nav-link"><span>01</span>Aperitivos</a><a href="#cafes" class="nav-link"><span>02</span>Cafés</a><a href="#desayunos" class="nav-link"><span>03</span>Desayunos</a><a href="#refrescos" class="nav-link"><span>04</span>Refrescos</a><a href="#granizados" class="nav-link"><span>05</span>Granizados</a><a href="#vinos" class="nav-link"><span>06</span>Vinos</a><a href="#vapers" class="nav-link"><span>07</span>Vapers</a><a href="#whisky" class="nav-link"><span>08</span>Whisky</a><a href="#ron" class="nav-link"><span>09</span>Ron</a><a href="#ginebra" class="nav-link"><span>10</span>Ginebra</a><a href="#cervezas" class="nav-link"><span>11</span>Cervezas</a><a href="#licores" class="nav-link"><span>12</span>Licores</a><a href="#conyacBrandy" class="nav-link"><span>13</span>Coñac y Brandy</a><a href="#vodka" class="nav-link"><span>14</span>Vodka</a>
+        </nav>
+      </div>
+
+      <div class="section-intro">
+        <h2>Carta completa</h2>
+        <p>
+          El contenido y los precios de esta web respetan la carta original, presentados con una estructura visual
+          más atractiva, legible y adaptada a móvil.
+        </p>
+      </div>
+
+      <div class="menu-grid">
+        
+    <section id="aperitivos" class="menu-card reveal">
+      <div class="card-top">
+        <div>
+          <div class="section-number">01</div>
+          <h2>Aperitivos</h2>
+        </div>
+        <div class="section-meta">1 precio</div>
+      </div>
+      <div class="menu-list">
+        <div class="menu-row">
+                    <span class="menu-name">Patatas y Aceitunas</span>
+                    <span class="price-pill">2.50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Patatas</span>
+                    <span class="price-pill">1.50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Aceitunas</span>
+                    <span class="price-pill">1.50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Sandwich Mixto</span>
+                    <span class="price-pill">2.50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Bocadillo Chorizo y Queso</span>
+                    <span class="price-pill">3.50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Bocadillo Salchichón y Queso</span>
+                    <span class="price-pill">3.50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Bocadillo de Atún y Mayonesa</span>
+                    <span class="price-pill">3.50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Bocadillo de Jamón y Queso</span>
+                    <span class="price-pill">3.50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Pizza</span>
+                    <span class="price-pill">6,00 €</span>
+                </div>
+      </div>
+    </section>
+    <section id="cafes" class="menu-card reveal">
+      <div class="card-top">
+        <div>
+          <div class="section-number">02</div>
+          <h2>Cafés</h2>
+        </div>
+        <div class="section-meta">1 precio</div>
+      </div>
+      <div class="menu-list">
+        <div class="menu-row">
+                    <span class="menu-name">Café/ Cortado</span>
+                    <span class="price-pill">1,00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Con leche/Manchado/ Bombón/Americano</span>
+                    <span class="price-pill">1.30 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Belmonte de Terry o Magno / Carajillo</span>
+                    <span class="price-pill">1,50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Belmonte Baileys</span>
+                    <span class="price-pill">1,50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Manwhi/ Tewhi</span>
+                    <span class="price-pill">1,50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Asiático</span>
+                    <span class="price-pill">2.30 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Infusión</span>
+                    <span class="price-pill">1,00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Infusiones Especiales</span>
+                    <span class="price-pill">1,50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Cola Cao</span>
+                    <span class="price-pill">1,50 €</span>
+                </div>
+      </div>
+    </section>
+    <section id="desayunos" class="menu-card wide reveal">
+      <div class="card-top">
+        <div>
+          <div class="section-number">03</div>
+          <h2>Desayunos</h2>
+        </div>
+        <div class="section-meta">1 precio</div>
+      </div>
+      <div class="menu-list">
+        <div class="menu-row">
+                    <span class="menu-name">1/2 Tostada sola</span>
+                    <span class="price-pill">2.00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">1/2 Tostada + Café*</span>
+                    <span class="price-pill">2.50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">1/2 Tostada + zumo/refresco</span>
+                    <span class="price-pill">3,00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">1/2 Tostada atún sola</span>
+                    <span class="price-pill">2.50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">1/2 Tostada atún + Café*</span>
+                    <span class="price-pill">3.00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">1/2 Tostada atún + zumo/refresco</span>
+                    <span class="price-pill">4.00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">1/2 Tostada jamón</span>
+                    <span class="price-pill">2.50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">1/2 Tostada jamón + zumo/refresco</span>
+                    <span class="price-pill">4.00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Napolitana/ Croissant</span>
+                    <span class="price-pill">2.00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Donuts</span>
+                    <span class="price-pill">2.00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Muffins</span>
+                    <span class="price-pill">2.00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Croissant jamón York y queso</span>
+                    <span class="price-pill">2.00 €</span>
+                </div>
+      </div>
+    </section>
+    <section id="refrescos" class="menu-card reveal">
+      <div class="card-top">
+        <div>
+          <div class="section-number">04</div>
+          <h2>Refrescos</h2>
+        </div>
+        <div class="section-meta">1 precio</div>
+      </div>
+      <div class="menu-list">
+        <div class="menu-row">
+                    <span class="menu-name">Agua Pequeña</span>
+                    <span class="price-pill">1,00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Agua Grande</span>
+                    <span class="price-pill">2.00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Refrescos</span>
+                    <span class="price-pill">1,50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Zumo</span>
+                    <span class="price-pill">1,50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Zumo de Naranja Natural</span>
+                    <span class="price-pill">2,00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Batido de Chocolate</span>
+                    <span class="price-pill">1.50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Tinto de Verano</span>
+                    <span class="price-pill">1,50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">RedBull</span>
+                    <span class="price-pill">2,50 €</span>
+                </div>
+      </div>
+    </section>
+    <section id="granizados" class="menu-card compact-card reveal">
+      <div class="card-top">
+        <div>
+          <div class="section-number">05</div>
+          <h2>Granizados</h2>
+        </div>
+        <div class="section-meta">1 precio</div>
+      </div>
+      <div class="menu-list">
+        <div class="menu-row">
+                    <span class="menu-name">Pequeño</span>
+                    <span class="price-pill">2,00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Grande</span>
+                    <span class="price-pill">3,00 €</span>
+                </div>
+      </div>
+    </section>
+    <section id="vinos" class="menu-card compact-card reveal">
+      <div class="card-top">
+        <div>
+          <div class="section-number">06</div>
+          <h2>Vinos</h2>
+        </div>
+        <div class="section-meta">Copa</div>
+      </div>
+      <div class="menu-list">
+        <div class="menu-head compact">
+        <span></span>
+        <span>Copa</span>
+    </div>
+<div class="menu-row grid-two">
+                    <span class="menu-name">Tinto</span>
+                    <span class="price-pill">2,00 €</span>
+                </div>
+<div class="menu-row grid-two">
+                    <span class="menu-name">Blanco</span>
+                    <span class="price-pill">2,00 €</span>
+                </div>
+<div class="menu-row grid-two">
+                    <span class="menu-name">Rosado</span>
+                    <span class="price-pill">2,00 €</span>
+                </div>
+      </div>
+    </section>
+    <section id="vapers" class="menu-card compact-card reveal">
+      <div class="card-top">
+        <div>
+          <div class="section-number">07</div>
+          <h2>Vapers</h2>
+        </div>
+        <div class="section-meta">Precio</div>
+      </div>
+      <div class="menu-list">
+        <div class="menu-row">
+                    <span class="menu-name">Vapers</span>
+                    <span class="price-pill">7.00€</span>
+                </div>
+      </div>
+    </section>
+    <section id="whisky" class="menu-card wide reveal">
+      <div class="card-top">
+        <div>
+          <div class="section-number">08</div>
+          <h2>Whisky</h2>
+        </div>
+        <div class="section-meta">Chupito · Combinado</div>
+      </div>
+      <div class="menu-list">
+        <div class="menu-head">
+        <span></span>
+        <span>Chupito</span>
+        <span>Combinado</span>
+    </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">JB</span>
+                    <span class="price-pill">2.00 €</span>
+                    <span class="price-pill">6,00 €</span>
+                </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">White Label</span>
+                    <span class="price-pill">2.00 €</span>
+                    <span class="price-pill">6,00 €</span>
+                </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">DYC</span>
+                    <span class="price-pill">2.00 €</span>
+                    <span class="price-pill">6,00 €</span>
+                </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">Ballantines</span>
+                    <span class="price-pill">2.00 €</span>
+                    <span class="price-pill">6,00 €</span>
+                </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">Jack Daniels</span>
+                    <span class="price-pill">2,50 €</span>
+                    <span class="price-pill">6,50 €</span>
+                </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">Johnnie Walker Red</span>
+                    <span class="price-pill">2,50 €</span>
+                    <span class="price-pill">6,00 €</span>
+                </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">Johnnie Walker Black Label</span>
+                    <span class="price-pill">2,50 €</span>
+                    <span class="price-pill">6,50 €</span>
+                </div>
+<div class="menu-note">* con RedBull + 1,00€</div>
+      </div>
+    </section>
+    <section id="ron" class="menu-card reveal">
+      <div class="card-top">
+        <div>
+          <div class="section-number">09</div>
+          <h2>Ron</h2>
+        </div>
+        <div class="section-meta">Combinados</div>
+      </div>
+      <div class="menu-list">
+        <div class="menu-row">
+                    <span class="menu-name">Barceló</span>
+                    <span class="price-pill">6,00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Brugal</span>
+                    <span class="price-pill">6,00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Bacardi Superior/Santa Teresa</span>
+                    <span class="price-pill">6,00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Chupito de Ron*</span>
+                    <span class="price-pill">2.00 €</span>
+                </div>
+<div class="menu-note">* con RedBull + 1,00€</div>
+      </div>
+    </section>
+    <section id="ginebra" class="menu-card reveal">
+      <div class="card-top">
+        <div>
+          <div class="section-number">10</div>
+          <h2>Ginebra</h2>
+        </div>
+        <div class="section-meta">Combinados</div>
+      </div>
+      <div class="menu-list">
+        <div class="menu-row">
+                    <span class="menu-name">Larios</span>
+                    <span class="price-pill">6,00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Larios 12</span>
+                    <span class="price-pill">6,00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Seagram</span>
+                    <span class="price-pill">6,00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Beefeater</span>
+                    <span class="price-pill">6,00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Bombay Dry</span>
+                    <span class="price-pill">6,00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Puerto de Indias / Strawberry</span>
+                    <span class="price-pill">6,00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">Bombay Sapphire</span>
+                    <span class="price-pill">6,00 €</span>
+                </div>
+<div class="menu-note">* con RedBull + 1,00€</div>
+      </div>
+    </section>
+    <section id="cervezas" class="menu-card reveal">
+      <div class="card-top">
+        <div>
+          <div class="section-number">11</div>
+          <h2>Cervezas</h2>
+        </div>
+        <div class="section-meta">1 precio</div>
+      </div>
+      <div class="menu-list">
+        <div class="menu-row">
+                    <span class="menu-name">1/3 Estrella Levante/ Damm</span>
+                    <span class="price-pill">1,50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">1/5 Estrella Levante</span>
+                    <span class="price-pill">1,00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">1/3 Carlsberg</span>
+                    <span class="price-pill">2,00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">1/3 Verna</span>
+                    <span class="price-pill">1,50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">1/3 Sin Alcohol</span>
+                    <span class="price-pill">1,50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">1/3 Duria Sin Gluten</span>
+                    <span class="price-pill">1,50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">1/3 Punta Este</span>
+                    <span class="price-pill">1,50 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">1/3 Coronita</span>
+                    <span class="price-pill">3,00 €</span>
+                </div>
+<div class="menu-row">
+                    <span class="menu-name">1/3 Salitos</span>
+                    <span class="price-pill">3,00 €</span>
+                </div>
+      </div>
+    </section>
+    <section id="licores" class="menu-card wide reveal">
+      <div class="card-top">
+        <div>
+          <div class="section-number">12</div>
+          <h2>Licores</h2>
+        </div>
+        <div class="section-meta">Chupito · Copa</div>
+      </div>
+      <div class="menu-list">
+        <div class="menu-head">
+        <span></span>
+        <span>Chupito</span>
+        <span>Copa</span>
+    </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">Orujo de Hierbas</span>
+                    <span class="price-pill">1,50 €</span>
+                    <span class="price-pill">2,50 €</span>
+                </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">Crema de Orujo</span>
+                    <span class="price-pill">1,50 €</span>
+                    <span class="price-pill">2,50 €</span>
+                </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">Tequila Jose Cuervo</span>
+                    <span class="price-pill">2,00 €</span>
+                    <span class="price-pill">4,00 €</span>
+                </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">Ponche Caballero</span>
+                    <span class="price-pill">1,50 €</span>
+                    <span class="price-pill">2,50 €</span>
+                </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">Baileys</span>
+                    <span class="price-pill">1,50 €</span>
+                    <span class="price-pill">2,50 €</span>
+                </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">Pacharan</span>
+                    <span class="price-pill">1,50 €</span>
+                    <span class="price-pill">2,50 €</span>
+                </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">Jägermeister</span>
+                    <span class="price-pill">2,00 €</span>
+                    <span class="price-pill">4,00 €</span>
+                </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">Martini</span>
+                    <span class="price-pill">1.50 €</span>
+                    <span class="price-pill">2,50 €</span>
+                </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">Marie Brizard Peppermint</span>
+                    <span class="price-pill">1,50 €</span>
+                    <span class="price-pill">2,50 €</span>
+                </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">Licor 43</span>
+                    <span class="price-pill">1,50 €</span>
+                    <span class="price-pill">2,50 €</span>
+                </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">Cazalla</span>
+                    <span class="price-pill">1.50 €</span>
+                    <span class="price-pill">2.50 €</span>
+                </div>
+      </div>
+    </section>
+    <section id="conyacBrandy" class="menu-card reveal">
+      <div class="card-top">
+        <div>
+          <div class="section-number">13</div>
+          <h2>Coñac y Brandy</h2>
+        </div>
+        <div class="section-meta">Chupito · Copa</div>
+      </div>
+      <div class="menu-list">
+        <div class="menu-head">
+        <span></span>
+        <span>Chupito</span>
+        <span>Copa</span>
+    </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">Terry</span>
+                    <span class="price-pill">1,50 €</span>
+                    <span class="price-pill">2,50 €</span>
+                </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">Magno</span>
+                    <span class="price-pill">1,50 €</span>
+                    <span class="price-pill">2,50 €</span>
+                </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">Anís Dulce/Seco</span>
+                    <span class="price-pill">1,50 €</span>
+                    <span class="price-pill">2,50 €</span>
+                </div>
+      </div>
+    </section>
+    <section id="vodka" class="menu-card reveal">
+      <div class="card-top">
+        <div>
+          <div class="section-number">14</div>
+          <h2>Vodka</h2>
+        </div>
+        <div class="section-meta">Chupito · Combinado</div>
+      </div>
+      <div class="menu-list">
+        <div class="menu-head">
+        <span></span>
+        <span>Chupito</span>
+        <span>Combinado</span>
+    </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">Absolut</span>
+                    <span class="price-pill">2.00 €</span>
+                    <span class="price-pill">6,00 €</span>
+                </div>
+<div class="menu-row grid-three">
+                    <span class="menu-name">Eristoff</span>
+                    <span class="price-pill">2.00 €</span>
+                    <span class="price-pill">6,00 €</span>
+                </div>
+<div class="menu-note">* con RedBull + 1,00€</div>
+      </div>
+    </section>
+      </div>
+
+      <footer class="footer">
+        <div class="footer-shell">
+          <div><strong>Tiki Taka</strong> · Carta digital</div>
+          <div>Abierto todos los días de 6:00 AM a 3:00 AM</div>
+        </div>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    const progress = document.getElementById("progress");
+    const navLinks = Array.from(document.querySelectorAll(".nav-link"));
+    const sections = Array.from(document.querySelectorAll(".menu-card"));
+
+    const onScroll = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const value = max > 0 ? (window.scrollY / max) * 100 : 0;
+      progress.style.width = value + "%";
+    };
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, {
+      threshold: 0.08
+    });
+
+    document.querySelectorAll(".reveal").forEach((el) => sectionObserver.observe(el));
+
+    const activeObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach((link) => {
+          link.classList.toggle("active", link.getAttribute("href") === "#" + entry.target.id);
+        });
+      });
+    }, {
+      rootMargin: "-35% 0px -45% 0px",
+      threshold: 0
+    });
+
+    sections.forEach((section) => activeObserver.observe(section));
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  </script>
+</body>
+</html>
